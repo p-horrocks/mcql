@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>StatusPage.qml</file>
+    </qresource>
+</RCC>
