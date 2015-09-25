@@ -11,10 +11,19 @@ ApplicationWindow
     height:  480
     visible: true
 
+    Component
+    {
+        id: newWorldPage
+
+        NewWorldPage {}
+    }
+
     StackView
     {
+        id:              pageStack
         anchors.fill:    parent
         anchors.margins: 10
+        focus:           true
         initialItem:     StatusPage {}
     }
 }

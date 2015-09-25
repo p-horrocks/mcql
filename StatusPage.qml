@@ -2,52 +2,57 @@ import QtQuick          2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts  1.1
 
-ColumnLayout
+FocusScope
 {
-    anchors.fill: parent
+    Layout.fillWidth:  true
+    Layout.fillHeight: true
 
-    GroupBox
+    ColumnLayout
     {
-        Layout.fillWidth: true
-        title:            qsTr("Server")
-        flat:             false
+        anchors.fill: parent
 
-        RowLayout
+        GroupBox
         {
-            anchors.fill: parent
+            Layout.fillWidth: true
+            title:            qsTr("Server")
 
-            Text
+            RowLayout
             {
-                text: qsTr("World:")
-            }
+                anchors.fill: parent
 
-            Text
-            {
-                Layout.fillWidth: true
-            }
+                Text
+                {
+                    text: qsTr("World:")
+                }
 
-            Button
-            {
-                text: "open"
-            }
+                Text
+                {
+                    Layout.fillWidth: true
+                }
 
-            Button
-            {
-                text: "new"
-            }
+                Button
+                {
+                    text: "open"
+                }
 
-            Button
-            {
-                text: "import"
+                Button
+                {
+                    text:      "new"
+                    onClicked: pageStack.push(newWorldPage)
+                }
+
+                Button
+                {
+                    text: "import"
+                }
             }
         }
-    }
 
-    GroupBox
-    {
-        Layout.fillWidth:  true
-        Layout.fillHeight: true
-        title:             qsTr("Players")
-        flat:              false
+        GroupBox
+        {
+            Layout.fillWidth:  true
+            Layout.fillHeight: true
+            title:             qsTr("Players")
+        }
     }
 }
