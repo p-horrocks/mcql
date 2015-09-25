@@ -1,0 +1,2 @@
+# mcql
+MineCraft Qt Launcher
