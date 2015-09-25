@@ -1,6 +1,7 @@
 import QtQuick          2.4
 import QtQuick.Controls 1.3
 import QtQuick.Layouts  1.1
+import app.mcql         1.0
 
 FocusScope
 {
@@ -35,6 +36,7 @@ FocusScope
 
                     TextInput
                     {
+                        id:                   worldName
                         y:                    3
                         anchors.left:         parent.left
                         anchors.right:        parent.right
@@ -45,13 +47,13 @@ FocusScope
                 }
 
                 Text     { text: qsTr("Type") }
-                ComboBox { Layout.fillWidth: true; model: [qsTr("Creative"), qsTr("Survival")] }
+                ComboBox { id: worldType; Layout.fillWidth: true; model: [qsTr("Creative"), qsTr("Survival")] }
 
                 Text     { text: qsTr("Difficulty") }
-                ComboBox { Layout.fillWidth: true; model: [qsTr("Peaceful"), qsTr("Easy"), qsTr("Normal"), qsTr("Hard")] }
+                ComboBox { id: difficulty; Layout.fillWidth: true; model: [qsTr("Peaceful"), qsTr("Easy"), qsTr("Normal"), qsTr("Hard")] }
 
                 Text     { text: qsTr("Hurting") }
-                ComboBox { Layout.fillWidth: true; model: [qsTr("Yes"), qsTr("No")] }
+                ComboBox { id: hurting; Layout.fillWidth: true; model: [qsTr("Yes"), qsTr("No")] }
 
                 Item
                 {
@@ -72,7 +74,12 @@ FocusScope
 
             Button
             {
-                text: qsTr("Create & Start")
+                text:      qsTr("Create & Start")
+                onClicked:
+                {
+                    McqlUtil.initialiseWorld(worldName.text, worldType.currentText, difficulty.currentIndex, hurting.currentIndex)
+                    pageStack.pop()
+                }
             }
 
             Button

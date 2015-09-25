@@ -2,7 +2,8 @@ TEMPLATE = app
 
 QT += qml quick
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    mcqlutil.cpp
 
 RESOURCES += qml.qrc
 
@@ -13,3 +14,6 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+HEADERS += \
+    mcqlutil.h

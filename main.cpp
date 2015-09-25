@@ -3,6 +3,9 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QQmlApplicationEngine>
+#include <qqml.h>
+
+#include "mcqlutil.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +29,12 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    const char* uri  = "app.mcql";
+    const int verMaj = 1;
+    const int verMin = 0;
+
     QQmlApplicationEngine engine;
+    qmlRegisterSingletonType<McqlUtil>(uri, verMaj, verMin, "McqlUtil", &McqlUtil::qmlSingletonProvider);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     return app.exec();
