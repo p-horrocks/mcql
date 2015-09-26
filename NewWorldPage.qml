@@ -55,6 +55,9 @@ FocusScope
                 Text     { text: qsTr("Hurting") }
                 ComboBox { id: hurting; Layout.fillWidth: true; model: [qsTr("Yes"), qsTr("No")] }
 
+                Text     { text: qsTr("Import Data") }
+                ComboBox { id: importData; Layout.fillWidth: true; model: McqlUtil.importableWorlds() }
+
                 Item
                 {
                     Layout.fillHeight: true
@@ -78,6 +81,10 @@ FocusScope
                 onClicked:
                 {
                     McqlUtil.initialiseWorld(worldName.text, worldType.currentText, difficulty.currentIndex, hurting.currentIndex)
+                    if(importData.currentIndex > 0)
+                    {
+                        McqlUtil.importWorld(importData.currentText, worldName.text)
+                    }
                     pageStack.pop()
                 }
             }

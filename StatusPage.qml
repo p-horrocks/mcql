@@ -40,11 +40,6 @@ FocusScope
                     text:      "new"
                     onClicked: pageStack.push(newWorldPage)
                 }
-
-                Button
-                {
-                    text: "import"
-                }
             }
         }
 

@@ -1,5 +1,7 @@
 #include "mcqlutil.h"
 
+#include <cassert>
+#include <QDebug>
 #include <QDir>
 #include <QTextStream>
 
@@ -46,11 +48,40 @@ enable-rcon=false
 motd=A MCQL World
 )";
 
+QString worldPath(const QString& name)
+{
+    return QDir::home().absoluteFilePath(QString(".mcql/%1").arg(name));
+}
+
+void copyDir(const QString& src, const QString& dst)
+{
+    if(!QDir().mkpath(dst))
+        throw std::runtime_error("Unable to create directory " + dst.toStdString());
+
+    auto srcDir = QDir(src);
+    auto dstDir = QDir(dst);
+
+    for(const auto& file : srcDir.entryList(QDir::Files | QDir::NoSymLinks | QDir::Readable))
+    {
+        auto s = srcDir.absoluteFilePath(file);
+        auto d = dstDir.absoluteFilePath(file);
+        if(!QFile::copy(s, d))
+            throw std::runtime_error("Unable to copy " + s.toStdString() + " to " + d.toStdString());
+    }
+
+    for(const auto& dir : srcDir.entryList(QDir::Dirs | QDir::NoSymLinks | QDir::Readable | QDir::NoDotAndDotDot))
+    {
+        auto s = srcDir.absoluteFilePath(dir);
+        auto d = dstDir.absoluteFilePath(dir);
+        copyDir(s, d);
+    }
+}
+
 } // namespace
 
 void McqlUtil::initialiseWorld(const QString& name, int type, int difficulty, int hurting)
 {
-    auto path = QDir::home().absoluteFilePath(QString(".mcql/%1").arg(name));
+    auto path = worldPath(name);
     if(!QDir().mkpath(path))
     {
         emit creationError(tr("Unable to create world directory"));
@@ -77,4 +108,39 @@ void McqlUtil::initialiseWorld(const QString& name, int type, int difficulty, in
     os << "gamemode=" << type << endl;
     os << "pvp=" << (hurting ? "false" : "true") << endl;
     os << "difficulty=" << difficulty << endl;
+}
+
+QStringList McqlUtil::importableWorlds()
+{
+    auto path    = QDir::home().absoluteFilePath(".minecraft/saves");
+    auto filters = QDir::NoDotAndDotDot | QDir::Dirs | QDir::Readable;
+    auto retval  = QDir(path).entryList(filters);
+    retval.push_front(tr("< Don't import >"));
+    return retval;
+}
+
+void McqlUtil::importWorld(const QString& source, const QString& destination)
+{
+    auto srcPath = QDir::home().absoluteFilePath(QString(".minecraft/saves/%1").arg(source));
+    auto dstPath = worldPath(destination) + "/world";
+
+    try
+    {
+        copyDir(srcPath, dstPath);
+    }
+    catch(const std::exception& e)
+    {
+        emit creationError(QString::fromUtf8(e.what()));
+    }
+}
+
+void McqlUtil::logError(const QString& err)
+{
+    qCritical() << err;
+}
+
+McqlUtil::McqlUtil()
+{
+    bool ok = connect(this, &McqlUtil::creationError, this, &McqlUtil::logError);
+    assert(ok);
 }
