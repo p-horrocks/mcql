@@ -10,7 +10,13 @@ FocusScope
 
     ServerLink
     {
-        onOutput: serverOutput.append(text)
+        id:        serverLink
+        worldName: rootWindow.worldName
+
+        onOutput: {
+            serverOutput.insert(serverOutput.length, text)
+            serverOutput.cursorPosition = serverOutput.length
+        }
     }
 
     ColumnLayout
@@ -25,7 +31,7 @@ FocusScope
 
         Text
         {
-            text: rootWindow.worldName
+            text: serverLink.worldName
         }
 
         Text
@@ -54,12 +60,38 @@ FocusScope
             radius:            4
             border.color:      "black"
 
-            TextEdit
+            Flickable
             {
-                id:              serverOutput
+                id:              textFlicker
                 anchors.fill:    parent
                 anchors.margins: 4
-                readOnly:        true
+                contentWidth:    serverOutput.paintedWidth
+                contentHeight:   serverOutput.paintedHeight
+                clip:            true
+
+                 function ensureVisible(r)
+                 {
+                     if (contentX >= r.x)
+                         contentX = r.x;
+                     else if (contentX+width <= r.x+r.width)
+                         contentX = r.x+r.width-width;
+                     if (contentY >= r.y)
+                         contentY = r.y;
+                     else if (contentY+height <= r.y+r.height)
+                         contentY = r.y+r.height-height;
+                 }
+
+                TextEdit
+                {
+                    id:       serverOutput
+                    width:    textFlicker.width
+                    height:   textFlicker.height
+                    focus:    true
+                    wrapMode: TextEdit.Wrap
+                    readOnly: true
+
+                    onCursorRectangleChanged: textFlicker.ensureVisible(cursorRectangle)
+                }
             }
         }
     }
