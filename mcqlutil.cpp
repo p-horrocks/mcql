@@ -134,6 +134,13 @@ void McqlUtil::importWorld(const QString& source, const QString& destination)
     }
 }
 
+QStringList McqlUtil::availableWorlds()
+{
+    auto path    = QDir::home().absoluteFilePath(".mcql");
+    auto filters = QDir::NoDotAndDotDot | QDir::Dirs | QDir::Readable;
+    return QDir(path).entryList(filters);
+}
+
 void McqlUtil::logError(const QString& err)
 {
     qCritical() << err;

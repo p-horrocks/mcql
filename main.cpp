@@ -6,6 +6,7 @@
 #include <qqml.h>
 
 #include "mcqlutil.h"
+#include "serverlink.h"
 
 int main(int argc, char *argv[])
 {
@@ -35,7 +36,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     qmlRegisterSingletonType<McqlUtil>(uri, verMaj, verMin, "McqlUtil", &McqlUtil::qmlSingletonProvider);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    qmlRegisterType<ServerLink>(uri, verMaj, verMin, "ServerLink");
 
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     return app.exec();
 }

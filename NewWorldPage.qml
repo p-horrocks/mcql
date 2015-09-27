@@ -9,91 +9,98 @@ FocusScope
     Layout.fillHeight: true
     focus:             true
 
-    ColumnLayout
+    GridLayout
     {
         anchors.fill: parent
+        columns:      2
 
-        GroupBox
+        Text
         {
-            Layout.fillWidth:  true
-            Layout.fillHeight: true
-            title:             qsTr("World Settings")
+            Layout.columnSpan: 2
+            text:              "World Settings"
+            font.pointSize:    16
+        }
 
-            GridLayout
+        Text
+        {
+            text: "Name"
+        }
+
+        Rectangle
+        {
+            Layout.fillWidth: true
+            height:           childrenRect.height + 6
+            color:            "white"
+            radius:           4
+            border.width:     1
+            border.color:     "black"
+
+            TextInput
             {
-                anchors.fill: parent
-                columns:      2
-
-                Text     { text: qsTr("Name") }
-                Rectangle
-                {
-                    Layout.fillWidth: true
-                    height:           childrenRect.height + 6
-                    color:            "white"
-                    radius:           4
-                    border.width:     1
-                    border.color:     "black"
-
-                    TextInput
-                    {
-                        id:                   worldName
-                        y:                    3
-                        anchors.left:         parent.left
-                        anchors.right:        parent.right
-                        anchors.leftMargin:   4
-                        anchors.rightMargin:  4
-                        focus:                true
-                    }
-                }
-
-                Text     { text: qsTr("Type") }
-                ComboBox { id: worldType; Layout.fillWidth: true; model: [qsTr("Creative"), qsTr("Survival")] }
-
-                Text     { text: qsTr("Difficulty") }
-                ComboBox { id: difficulty; Layout.fillWidth: true; model: [qsTr("Peaceful"), qsTr("Easy"), qsTr("Normal"), qsTr("Hard")] }
-
-                Text     { text: qsTr("Hurting") }
-                ComboBox { id: hurting; Layout.fillWidth: true; model: [qsTr("Yes"), qsTr("No")] }
-
-                Text     { text: qsTr("Import Data") }
-                ComboBox { id: importData; Layout.fillWidth: true; model: McqlUtil.importableWorlds() }
-
-                Item
-                {
-                    Layout.fillHeight: true
-                    width:             1
-                }
+                id:                   worldName
+                y:                    3
+                anchors.left:         parent.left
+                anchors.right:        parent.right
+                anchors.leftMargin:   4
+                anchors.rightMargin:  4
+                focus:                true
             }
         }
 
-        RowLayout
+        Text
         {
+            text: "Type"
+        }
+
+        ComboBox
+        {
+            id:               worldType
             Layout.fillWidth: true
+            model:            ["Creative", "Survival"]
+        }
 
-            Item
-            {
-                Layout.fillWidth: true
-            }
+        Text
+        {
+            text: "Difficulty"
+        }
 
-            Button
-            {
-                text:      qsTr("Create & Start")
-                onClicked:
-                {
-                    McqlUtil.initialiseWorld(worldName.text, worldType.currentText, difficulty.currentIndex, hurting.currentIndex)
-                    if(importData.currentIndex > 0)
-                    {
-                        McqlUtil.importWorld(importData.currentText, worldName.text)
-                    }
-                    pageStack.pop()
-                }
-            }
+        ComboBox
+        {
+            id:               difficulty
+            Layout.fillWidth: true
+            model:            ["Peaceful", "Easy", "Normal", "Hard"]
+        }
 
-            Button
-            {
-                text:      qsTr("Exit")
-                onClicked: pageStack.pop()
-            }
+        Text
+        {
+            text: "Hurt other players"
+        }
+
+        ComboBox
+        {
+            id:               pvp
+            Layout.fillWidth: true
+            model:            ["Yes", "No"]
+        }
+
+        Item
+        {
+            Layout.fillHeight: true
+            Layout.columnSpan: 2
+        }
+
+        Button
+        {
+            Layout.alignment: Qt.AlignLeft
+            text:             "Back"
+            onClicked:        pageStack.pop()
+        }
+
+        Button
+        {
+            Layout.alignment: Qt.AlignRight
+            text:             "Start Server"
+            onClicked:        pageStack.push(statusPage)
         }
     }
 }

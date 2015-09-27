@@ -1,8 +1,7 @@
-import QtQuick          2.4
-import QtQuick.Controls 1.3
-import QtQuick.Window   2.2
-import QtQuick.Dialogs  1.2
-import QtQuick.Layouts  1.1
+import QtQuick                 2.4
+import QtQuick.Controls        1.3
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Window          2.2
 
 ApplicationWindow
 {
@@ -13,9 +12,49 @@ ApplicationWindow
 
     Component
     {
+        id:    bigButton
+        ButtonStyle
+        {
+            label: Text {
+                text:           (control === null) ? "" : control.text
+                font.pointSize: 16
+            }
+        }
+    }
+
+    Component
+    {
+        id: startMinecraftPage
+
+        NewWorldPage {}
+    }
+
+    Component
+    {
+        id: startServerPage
+
+        StartServerPage {}
+    }
+
+    Component
+    {
         id: newWorldPage
 
         NewWorldPage {}
+    }
+
+    Component
+    {
+        id: openWorldPage
+
+        OpenWorldPage {}
+    }
+
+    Component
+    {
+        id: statusPage
+
+        StatusPage {}
     }
 
     StackView
@@ -24,6 +63,6 @@ ApplicationWindow
         anchors.fill:    parent
         anchors.margins: 10
         focus:           true
-        initialItem:     StatusPage {}
+        initialItem:     InitialPage {}
     }
 }

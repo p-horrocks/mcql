@@ -3,7 +3,8 @@ TEMPLATE = app
 QT += qml quick
 
 SOURCES += main.cpp \
-    mcqlutil.cpp
+    mcqlutil.cpp \
+    serverlink.cpp
 
 RESOURCES += qml.qrc
 
@@ -16,4 +17,5 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    mcqlutil.h
+    mcqlutil.h \
+    serverlink.h
