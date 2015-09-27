@@ -7,7 +7,8 @@ FocusScope
 {
     Layout.fillWidth:  true
     Layout.fillHeight: true
-    focus:             true
+
+    property var nextPage: statusPage
 
     ColumnLayout
     {
@@ -29,27 +30,20 @@ FocusScope
 
             ListView
             {
+                id:              worldList
                 anchors.fill:    parent
                 anchors.margins: 4
                 model:           McqlUtil.availableWorlds()
-                delegate:        Text { anchors.left: parent.left; anchors.right: parent.right; text: modelData }
+                delegate:        Text {
+                    anchors.left:  parent.left
+                    anchors.right: parent.right
+                    text:          modelData
+                }
                 focus:           true
                 highlight:       Rectangle { anchors.left: parent.left; anchors.right: parent.right; color: "lightsteelblue"; radius: 5 }
+
+                onCurrentItemChanged: rootWindow.worldName = currentItem.text
             }
-        }
-
-        Button
-        {
-            Layout.alignment: Qt.AlignLeft
-            text:             "Back"
-            onClicked:        pageStack.pop()
-        }
-
-        Button
-        {
-            Layout.alignment: Qt.AlignRight
-            text:             "Start Server"
-            onClicked:        pageStack.push(statusPage)
         }
     }
 }

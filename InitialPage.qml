@@ -7,31 +7,22 @@ FocusScope
     Layout.fillWidth:  true
     Layout.fillHeight: true
 
+    property var nextPage: startServerPage
+
     ColumnLayout
     {
         anchors.fill: parent
 
         BigButton
         {
-            Layout.alignment: Qt.AlignHCenter
-            text:             "Start Minecraft"
-            onClicked:        pageStack.push(startMinecraftPage)
+            text:    "Start Minecraft"
+            ourPage: startMinecraftPage
         }
 
         BigButton
         {
-            Layout.alignment: Qt.AlignHCenter
-            text:             "Start Server"
-            onClicked:        pageStack.push(startServerPage)
-        }
-
-        Item { Layout.fillHeight: true }
-
-        Button
-        {
-            Layout.alignment: Qt.AlignLeft
-            text:             "Back"
-            enabled:          false
+            text:    "Start Server"
+            ourPage: startServerPage
         }
     }
 }

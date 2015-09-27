@@ -12,7 +12,7 @@ public:
     ServerLink();
 
 signals:
-    void output(const QString& str);
+    void output(const QString& text);
 
 protected:
     virtual void timerEvent(QTimerEvent *);

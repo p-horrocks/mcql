@@ -10,62 +10,56 @@ FocusScope
 
     ServerLink
     {
-//        onOutput:
+        onOutput: serverOutput.append(text)
     }
 
     ColumnLayout
     {
         anchors.fill: parent
 
-        GroupBox
+        Text
         {
-            Layout.fillWidth: true
-            title:            qsTr("Server")
-
-            RowLayout
-            {
-                anchors.fill: parent
-
-                Text
-                {
-                    text: qsTr("World:")
-                }
-
-                Text
-                {
-                    Layout.fillWidth: true
-                }
-
-                Button
-                {
-                    text:      "open"
-                    onClicked: pageStack.push(openWorldPage)
-                }
-
-                Button
-                {
-                    text:      "new"
-                    onClicked: pageStack.push(newWorldPage)
-                }
-            }
+            text:           "World Name"
+            font.pointSize: 16
         }
 
-        GroupBox
+        Text
+        {
+            text: rootWindow.worldName
+        }
+
+        Text
+        {
+            text:           "Settings"
+            font.pointSize: 16
+        }
+
+        Text
+        {
+            text:           "Players"
+            font.pointSize: 16
+        }
+
+        Text
+        {
+            text:           "Server Output"
+            font.pointSize: 16
+        }
+
+        Rectangle
         {
             Layout.fillWidth:  true
             Layout.fillHeight: true
-            title:             qsTr("Players")
-        }
-
-        GroupBox
-        {
-            Layout.fillWidth:  true
-            Layout.fillHeight: true
-            title:             qsTr("Output")
+            color:             "white"
+            radius:            4
+            border.color:      "black"
 
             TextEdit
             {
-                anchors.fill: parent
+                id:              serverOutput
+                anchors.fill:    parent
+                anchors.margins: 4
+                readOnly:        true
             }
         }
     }

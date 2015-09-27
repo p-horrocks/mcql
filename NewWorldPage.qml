@@ -89,6 +89,14 @@ FocusScope
             Layout.columnSpan: 2
         }
 
+        Rectangle
+        {
+            Layout.fillWidth:  true
+            Layout.columnSpan: 2
+            height:            1
+            color:             "black"
+        }
+
         Button
         {
             Layout.alignment: Qt.AlignLeft
@@ -100,7 +108,11 @@ FocusScope
         {
             Layout.alignment: Qt.AlignRight
             text:             "Start Server"
-            onClicked:        pageStack.push(statusPage)
+            onClicked: {
+                McqlUtil.initialiseWorld(worldName.text, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
+                rootWindow.worldName = worldName.text
+                pageStack.push(statusPage)
+            }
         }
     }
 }
