@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QTextStream>
+#include <QUuid>
 
 namespace
 {
@@ -137,6 +138,18 @@ QStringList McqlUtil::availableWorlds()
     auto path    = QDir::home().absoluteFilePath(".mcql");
     auto filters = QDir::NoDotAndDotDot | QDir::Dirs | QDir::Readable;
     return QDir(path).entryList(filters);
+}
+
+QString McqlUtil::genWorldName(const QString& seed)
+{
+    auto retval = seed;
+    if(seed.isEmpty())
+    {
+        retval = QUuid::createUuid().toString();
+        retval.replace("{", "");
+        retval.replace("}", "");
+    }
+    return retval;
 }
 
 void McqlUtil::logError(const QString& err)

@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE QStringList importableWorlds();
     Q_INVOKABLE void        importWorld(const QString& source, const QString& destination);
     Q_INVOKABLE QStringList availableWorlds();
+    Q_INVOKABLE QString     genWorldName(const QString& seed);
 
 signals:
     void creationError(const QString& err);

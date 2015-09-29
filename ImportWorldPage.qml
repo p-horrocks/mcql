@@ -15,9 +15,10 @@ FocusScope
     {
         target:        rootWindow
         onNextClicked: {
-            McqlUtil.importWorld(importWorld, worldName.text)
-            McqlUtil.initialiseWorld(worldName.text, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
-            rootWindow.worldName = worldName.text
+            var name = McqlUtil.genWorldName(worldName.text)
+            McqlUtil.importWorld(importWorld, name)
+            McqlUtil.initialiseWorld(name, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
+            rootWindow.worldName = name
         }
     }
 
