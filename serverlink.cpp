@@ -27,10 +27,19 @@ void ServerLink::readProcessStdout()
 {
     auto data = serverProcess_.readAllStandardOutput();
 
-    static const auto newPlayerRE = QRegExp("\\[[^]]+\\]: ([^[]+)\\[[^]]+\\] logged in.*");
+    static const auto newPlayerRE  = QRegExp("\\[[^]]+\\]: ([^[]+)\\[[^]]+\\] logged in.*");
+    static const auto lostPlayerRE = QRegExp("\\[[^]]+\\]: ([^ ]+) left the game.*");
+
     if(newPlayerRE.exactMatch(data))
     {
         playerList_.addPlayer(newPlayerRE.cap(1));
+    }
+    else if(lostPlayerRE.exactMatch(data))
+    {
+        playerList_.removePlayer(lostPlayerRE.cap(1));
+    }
+    else
+    {
     }
 
     emit output(QString::fromUtf8(data));

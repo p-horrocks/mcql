@@ -47,3 +47,17 @@ void PlayerList::addPlayer(const QString& name)
     players_.push_back(QSharedPointer<Player>(new Player(name)));
     endInsertRows();
 }
+
+void PlayerList::removePlayer(const QString& name)
+{
+    for(int i = 0; i < players_.size(); ++i)
+    {
+        if(players_[i]->name() != name)
+            continue;
+
+        beginRemoveRows(QModelIndex(), i, i);
+        players_.removeAt(i);
+        endRemoveRows();
+        break;
+    }
+}

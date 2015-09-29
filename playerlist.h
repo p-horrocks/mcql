@@ -16,6 +16,7 @@ public:
     virtual QVariant data(const QModelIndex& index, int role) const;
 
     void addPlayer(const QString& name);
+    void removePlayer(const QString& name);
 
 protected:
     QList<PlayerPtr> players_;
