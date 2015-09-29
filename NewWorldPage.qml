@@ -68,7 +68,7 @@ FocusScope
         {
             id:               worldType
             Layout.fillWidth: true
-            model:            ["Creative", "Survival"]
+            model:            ["Survival", "Creative"]
         }
 
         Text

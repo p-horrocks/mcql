@@ -34,10 +34,22 @@ FocusScope
                 anchors.fill:    parent
                 anchors.margins: 4
                 model:           McqlUtil.availableWorlds()
+                highlightFollowsCurrentItem: true
                 delegate:        Text {
                     anchors.left:  parent.left
                     anchors.right: parent.right
                     text:          modelData
+
+                    function select()
+                    {
+                        ListView.view.currentIndex = index
+                    }
+
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:    select()
+                    }
                 }
                 focus:           true
                 highlight:       Rectangle { anchors.left: parent.left; anchors.right: parent.right; color: "lightsteelblue"; radius: 5 }
