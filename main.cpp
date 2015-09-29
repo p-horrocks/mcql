@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    qRegisterMetaType<PlayerList*>();
+
     const char* uri  = "app.mcql";
     const int verMaj = 1;
     const int verMin = 0;

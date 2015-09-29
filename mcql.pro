@@ -4,7 +4,9 @@ QT += qml quick
 
 SOURCES += main.cpp \
     mcqlutil.cpp \
-    serverlink.cpp
+    serverlink.cpp \
+    player.cpp \
+    playerlist.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,4 +20,6 @@ include(deployment.pri)
 
 HEADERS += \
     mcqlutil.h \
-    serverlink.h
+    serverlink.h \
+    player.h \
+    playerlist.h

@@ -46,6 +46,14 @@ FocusScope
             font.pointSize: 16
         }
 
+        ListView
+        {
+            Layout.fillWidth:  true
+            Layout.fillHeight: true
+            model:             serverLink.playerList
+            delegate:          Text { text: model.name }
+        }
+
         Text
         {
             text:           "Server Output"

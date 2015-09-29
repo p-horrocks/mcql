@@ -26,6 +26,13 @@ void ServerLink::setWorldName(const QString& name)
 void ServerLink::readProcessStdout()
 {
     auto data = serverProcess_.readAllStandardOutput();
+
+    static const auto newPlayerRE = QRegExp("\\[[^]]+\\]: ([^[]+)\\[[^]]+\\] logged in.*");
+    if(newPlayerRE.exactMatch(data))
+    {
+        playerList_.addPlayer(newPlayerRE.cap(1));
+    }
+
     emit output(QString::fromUtf8(data));
 }
 
