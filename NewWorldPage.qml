@@ -9,6 +9,17 @@ FocusScope
     Layout.fillHeight: true
     focus:             true
 
+    property var nextPage: statusPage
+
+    Connections
+    {
+        target:        rootWindow
+        onNextClicked: {
+            rootWindow.worldName = worldName.text
+            McqlUtil.initialiseWorld(worldName.text, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
+        }
+    }
+
     GridLayout
     {
         anchors.fill: parent
@@ -87,32 +98,6 @@ FocusScope
         {
             Layout.fillHeight: true
             Layout.columnSpan: 2
-        }
-
-        Rectangle
-        {
-            Layout.fillWidth:  true
-            Layout.columnSpan: 2
-            height:            1
-            color:             "black"
-        }
-
-        Button
-        {
-            Layout.alignment: Qt.AlignLeft
-            text:             "Back"
-            onClicked:        pageStack.pop()
-        }
-
-        Button
-        {
-            Layout.alignment: Qt.AlignRight
-            text:             "Start Server"
-            onClicked: {
-                McqlUtil.initialiseWorld(worldName.text, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
-                rootWindow.worldName = worldName.text
-                pageStack.push(statusPage)
-            }
         }
     }
 }

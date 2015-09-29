@@ -14,6 +14,8 @@ ApplicationWindow
 
     property string worldName
 
+    signal nextClicked()
+
     Component
     {
         id:    bigButton
@@ -97,7 +99,10 @@ ApplicationWindow
             Layout.alignment: Qt.AlignRight
             text:             "Next"
             enabled:          (pageStack.currentItem !== null) && (pageStack.currentItem.nextPage !== undefined) && (pageStack.currentItem.nextPage !== null)
-            onClicked:        pageStack.push(pageStack.currentItem.nextPage)
+            onClicked: {
+                rootWindow.nextClicked()
+                pageStack.push(pageStack.currentItem.nextPage)
+            }
         }
     }
 }
