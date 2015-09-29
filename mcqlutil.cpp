@@ -114,9 +114,7 @@ QStringList McqlUtil::importableWorlds()
 {
     auto path    = QDir::home().absoluteFilePath(".minecraft/saves");
     auto filters = QDir::NoDotAndDotDot | QDir::Dirs | QDir::Readable;
-    auto retval  = QDir(path).entryList(filters);
-    retval.push_front(tr("< Don't import >"));
-    return retval;
+    return QDir(path).entryList(filters);
 }
 
 void McqlUtil::importWorld(const QString& source, const QString& destination)

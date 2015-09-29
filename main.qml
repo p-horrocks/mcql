@@ -58,6 +58,13 @@ ApplicationWindow
 
     Component
     {
+        id: importWorldPage
+
+        ImportWorldPage {}
+    }
+
+    Component
+    {
         id: statusPage
 
         StatusPage {}

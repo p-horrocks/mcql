@@ -27,8 +27,8 @@ FocusScope
 
         BigButton
         {
-            text:    "Create World From Saved Game"
-//            ourPage: importWorldPage
+            text:    "Create New World From Saved Game"
+            ourPage: importWorldPage
         }
     }
 }

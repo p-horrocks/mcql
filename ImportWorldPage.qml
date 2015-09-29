@@ -7,14 +7,15 @@ FocusScope
 {
     Layout.fillWidth:  true
     Layout.fillHeight: true
-    focus:             true
 
-    property var nextPage: statusPage
+    property string importWorld: null
+    property var nextPage:       statusPage
 
     Connections
     {
         target:        rootWindow
         onNextClicked: {
+            McqlUtil.importWorld(importWorld, worldName.text)
             McqlUtil.initialiseWorld(worldName.text, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
             rootWindow.worldName = worldName.text
         }
@@ -24,6 +25,40 @@ FocusScope
     {
         anchors.fill: parent
         columns:      2
+
+        Text
+        {
+            Layout.columnSpan: 2
+            text:              "Save Game To Use"
+            font.pointSize:    16
+        }
+
+        Rectangle
+        {
+            Layout.fillWidth:  true
+            Layout.fillHeight: true
+            Layout.columnSpan: 2
+            radius:            4
+            color:             "white"
+            border.color:      "gray"
+
+            ListView
+            {
+                id:              worldList
+                anchors.fill:    parent
+                anchors.margins: 4
+                model:           McqlUtil.importableWorlds()
+                delegate:        Text {
+                    anchors.left:  parent.left
+                    anchors.right: parent.right
+                    text:          modelData
+                }
+                focus:           true
+                highlight:       Rectangle { anchors.left: parent.left; anchors.right: parent.right; color: "lightsteelblue"; radius: 5 }
+
+                onCurrentItemChanged: importWorld = currentItem.text
+            }
+        }
 
         Text
         {
@@ -92,12 +127,6 @@ FocusScope
             id:               pvp
             Layout.fillWidth: true
             model:            ["Yes", "No"]
-        }
-
-        Item
-        {
-            Layout.fillHeight: true
-            Layout.columnSpan: 2
         }
     }
 }
