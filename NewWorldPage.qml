@@ -16,7 +16,12 @@ FocusScope
         target:        rootWindow
         onNextClicked: {
             var name = McqlUtil.genWorldName(worldName.text)
-            McqlUtil.initialiseWorld(name, worldType.currentIndex, difficulty.currentIndex, pvp.currentIndex)
+            McqlUtil.initialiseWorld(
+                        name,
+                        worldType.currentIndex,
+                        difficultyModel.get(difficulty.currentIndex).value,
+                        pvp.currentIndex
+                        )
             rootWindow.worldName = name
         }
     }
@@ -80,7 +85,16 @@ FocusScope
         {
             id:               difficulty
             Layout.fillWidth: true
-            model:            ["Peaceful", "Easy", "Normal", "Hard"]
+            model:            difficultyModel
+
+            ListModel
+            {
+                id: difficultyModel
+                ListElement { text: "Peaceful"; value: McqlUtil.Peaceful }
+                ListElement { text: "Easy";     value: McqlUtil.Easy }
+                ListElement { text: "Normal";   value: McqlUtil.Normal }
+                ListElement { text: "Hard";     value: McqlUtil.Hard }
+            }
         }
 
         Text

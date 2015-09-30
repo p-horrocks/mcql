@@ -13,7 +13,10 @@ class McqlUtil :
 public:
     static QObject* qmlSingletonProvider(QQmlEngine*, QJSEngine*) { return new McqlUtil(); }
 
-    Q_INVOKABLE void        initialiseWorld(const QString& name, int type, int difficulty, int hurting);
+    enum Difficulty { Peaceful, Easy, Normal, Hard };
+    Q_ENUM(Difficulty)
+
+    Q_INVOKABLE void        initialiseWorld(const QString& name, int type, Difficulty difficulty, int hurting);
     Q_INVOKABLE QStringList importableWorlds();
     Q_INVOKABLE void        importWorld(const QString& source, const QString& destination);
     Q_INVOKABLE QStringList availableWorlds();
