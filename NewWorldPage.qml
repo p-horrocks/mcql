@@ -19,7 +19,7 @@ FocusScope
             McqlUtil.initialiseWorld(
                         name,
                         worldType.currentIndex,
-                        difficultyModel.get(difficulty.currentIndex).value,
+                        difficulty.value,
                         pvp.currentIndex
                         )
             rootWindow.worldName = name
@@ -81,20 +81,10 @@ FocusScope
             text: "Difficulty"
         }
 
-        ComboBox
+        DifficultyCombo
         {
             id:               difficulty
             Layout.fillWidth: true
-            model:            difficultyModel
-
-            ListModel
-            {
-                id: difficultyModel
-                ListElement { text: "Peaceful"; value: McqlUtil.Peaceful }
-                ListElement { text: "Easy";     value: McqlUtil.Easy }
-                ListElement { text: "Normal";   value: McqlUtil.Normal }
-                ListElement { text: "Hard";     value: McqlUtil.Hard }
-            }
         }
 
         Text

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QProcess>
 
+#include "mcqlutil.h"
 #include "playerlist.h"
 
 class ServerLink :
@@ -38,11 +39,13 @@ signals:
 
 protected:
     void startServer();
+    void readServerDefaults(const QString& dir);
 
-    QString    worldName_;
-    bool       running_;
-    QProcess   serverProcess_;
-    PlayerList playerList_;
+    QString              worldName_;
+    bool                 running_;
+    QProcess             serverProcess_;
+    PlayerList           playerList_;
+    McqlUtil::Difficulty difficulty_;
 };
 
 #endif // SERVERLINK_H

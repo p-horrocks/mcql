@@ -8,5 +8,6 @@
         <file>StartServerPage.qml</file>
         <file>BigButton.qml</file>
         <file>ImportWorldPage.qml</file>
+        <file>DifficultyCombo.qml</file>
     </qresource>
 </RCC>

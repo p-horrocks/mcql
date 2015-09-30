@@ -1,11 +1,13 @@
 #include "serverlink.h"
 
 #include <cassert>
+#include <QDebug>
 #include <QDir>
 
 ServerLink::ServerLink()
 {
-    running_ = false;
+    running_    = false;
+    difficulty_ = McqlUtil::Normal;
 
     bool ok = connect(
                 &serverProcess_, &QProcess::readyReadStandardOutput,
@@ -91,4 +93,27 @@ void ServerLink::startServer()
 
     serverProcess_.setWorkingDirectory(worldPath);
     serverProcess_.start("java", args);
+}
+
+void ServerLink::readServerDefaults(const QString& dir)
+{
+    QFile serverProps(QDir(dir).absoluteFilePath("server.properties"));
+    if(!serverProps.open(QIODevice::ReadOnly))
+    {
+        qCritical() << "Unable to open server.properties";
+        return;
+    }
+
+    char lineData[2048];
+    while(serverProps.readLine(lineData, sizeof(lineData)) >= 0)
+    {
+        auto line = QString::fromUtf8(lineData);
+
+        // Trim comments.
+        int pos = line.indexOf('#');
+        if(pos >= 0)
+        {
+            line.truncate(pos);
+        }
+    }
 }

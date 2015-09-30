@@ -105,23 +105,10 @@ void McqlUtil::initialiseWorld(const QString& name, int type, Difficulty difficu
     }
     QTextStream os(&serverProperties);
 
-    int diff = 0;
-    switch(difficulty)
-    {
-    case Peaceful:
-        diff = 0; break;
-    case Easy:
-        diff = 1; break;
-    case Normal:
-        diff = 2; break;
-    case Hard:
-        diff = 3; break;
-    }
-
     os << PROP_TEMPLATE;
     os << "gamemode=" << type << endl;
     os << "pvp=" << (hurting ? "false" : "true") << endl;
-    os << "difficulty=" << diff << endl;
+    os << "difficulty=" << static_cast<int>(difficulty) << endl;
 }
 
 QStringList McqlUtil::importableWorlds()
