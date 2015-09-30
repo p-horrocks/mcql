@@ -5,6 +5,8 @@
 
 ServerLink::ServerLink()
 {
+    running_ = false;
+
     bool ok = connect(
                 &serverProcess_, &QProcess::readyReadStandardOutput,
                 this, &ServerLink::readProcessStdout
@@ -21,6 +23,13 @@ void ServerLink::setWorldName(const QString& name)
 
         startServer();
     }
+}
+
+void ServerLink::sendInput(const QString& input)
+{
+    auto data = input.toUtf8();
+    data.append('\n');
+    serverProcess_.write(data);
 }
 
 void ServerLink::readProcessStdout()

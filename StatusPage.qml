@@ -102,5 +102,30 @@ FocusScope
                 }
             }
         }
+
+        Rectangle
+        {
+            Layout.fillWidth: true
+            height:           childrenRect.height + 6
+            color:            "white"
+            radius:           4
+            border.width:     1
+            border.color:     "black"
+
+            TextInput
+            {
+                y:                    3
+                anchors.left:         parent.left
+                anchors.right:        parent.right
+                anchors.leftMargin:   4
+                anchors.rightMargin:  4
+                focus:                true
+
+                onAccepted: {
+                    serverLink.sendInput(text)
+                    text = ""
+                }
+            }
+        }
     }
 }
