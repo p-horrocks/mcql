@@ -27,6 +27,7 @@ FocusScope
             radius:            4
             color:             "white"
             border.color:      "gray"
+            clip:              true
 
             ListView
             {

@@ -12,6 +12,12 @@ ServerLink::ServerLink()
                 this, &ServerLink::readProcessStdout
                 );
     assert(ok);
+
+    ok = connect(
+                &serverProcess_, &QProcess::stateChanged,
+                this, &ServerLink::onStateChange
+                );
+    assert(ok);
 }
 
 void ServerLink::setWorldName(const QString& name)
@@ -30,6 +36,16 @@ void ServerLink::sendInput(const QString& input)
     auto data = input.toUtf8();
     data.append('\n');
     serverProcess_.write(data);
+}
+
+void ServerLink::stopServer()
+{
+    if(serverProcess_.state() != QProcess::NotRunning)
+    {
+        // Return immediately, we'll catch the signal when the server actually
+        // stops.
+        serverProcess_.write("stop\n");
+    }
 }
 
 void ServerLink::readProcessStdout()
@@ -52,6 +68,16 @@ void ServerLink::readProcessStdout()
     }
 
     emit output(QString::fromUtf8(data));
+}
+
+void ServerLink::onStateChange(QProcess::ProcessState state)
+{
+    bool running = (state != QProcess::NotRunning);
+    if(running != running_)
+    {
+        running_ = running;
+        emit runningChanged();
+    }
 }
 
 void ServerLink::startServer()

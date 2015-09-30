@@ -16,6 +16,19 @@ ApplicationWindow
 
     signal nextClicked()
 
+    onClosing: {
+        if(typeof(pageStack.currentItem.running) === "boolean")
+        {
+            // The StatusPage must be active. If the server is running then
+            // instead of closing straight away wait for the server to shutdown
+            if(pageStack.currentItem.running)
+            {
+                pageStack.currentItem.stopServer()
+                close.accepted = false
+            }
+        }
+    }
+
     Component
     {
         id:    bigButton

@@ -8,6 +8,15 @@ FocusScope
     Layout.fillWidth:  true
     Layout.fillHeight: true
 
+    property alias running:    serverLink.running
+    property bool closeOnStop: false
+
+    function stopServer()
+    {
+        closeOnStop = true
+        serverLink.stopServer()
+    }
+
     ServerLink
     {
         id:        serverLink
@@ -16,6 +25,13 @@ FocusScope
         onOutput: {
             serverOutput.insert(serverOutput.length, text)
             serverOutput.cursorPosition = serverOutput.length
+        }
+
+        onRunningChanged: {
+            if(!running && closeOnStop)
+            {
+                rootWindow.close()
+            }
         }
     }
 

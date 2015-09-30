@@ -24,9 +24,11 @@ public:
     PlayerList* playerList() { return &playerList_; }
 
     Q_INVOKABLE void sendInput(const QString& input);
+    Q_INVOKABLE void stopServer();
 
 protected slots:
     void readProcessStdout();
+    void onStateChange(QProcess::ProcessState state);
 
 signals:
     void worldNameChanged();
