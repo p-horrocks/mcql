@@ -4,7 +4,6 @@
         <file>StatusPage.qml</file>
         <file>NewWorldPage.qml</file>
         <file>OpenWorldPage.qml</file>
-        <file>InitialPage.qml</file>
         <file>StartServerPage.qml</file>
         <file>BigButton.qml</file>
         <file>ImportWorldPage.qml</file>

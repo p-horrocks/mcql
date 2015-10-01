@@ -43,13 +43,6 @@ ApplicationWindow
 
     Component
     {
-        id: startMinecraftPage
-
-        NewWorldPage {}
-    }
-
-    Component
-    {
         id: startServerPage
 
         StartServerPage {}
@@ -96,7 +89,7 @@ ApplicationWindow
             Layout.fillHeight: true
             Layout.columnSpan: 2
             focus:             true
-            initialItem:       InitialPage {}
+            initialItem:       startServerPage
         }
 
         Rectangle

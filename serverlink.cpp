@@ -115,5 +115,19 @@ void ServerLink::readServerDefaults(const QString& dir)
         {
             line.truncate(pos);
         }
+        line = line.trimmed();
+
+        // Skip empty lines.
+        if(line.isEmpty())
+            continue;
+
+        // Split into name/value pair.
+        pos = line.indexOf('=');
+        if(pos < 0)
+            continue;
+
+        auto name  = line.left(pos);
+        auto value = line.mid(pos + 1);
+
     }
 }
