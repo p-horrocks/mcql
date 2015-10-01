@@ -10,7 +10,6 @@ FocusScope
 
     property alias running:    serverLink.running
     property bool closeOnStop: false
-    property bool uiUpdate:    false
 
     function stopServer()
     {
@@ -73,12 +72,7 @@ FocusScope
                 Layout.fillWidth: true
                 value:            serverLink.difficulty
 
-                onValueChanged: {
-                    if(!uiUpdate)
-                    {
-                        serverLink.difficulty = value
-                    }
-                }
+                onValueChanged: serverLink.difficulty = value
             }
         }
 
@@ -88,12 +82,21 @@ FocusScope
             font.pointSize: 16
         }
 
-        ListView
+        Rectangle
         {
             Layout.fillWidth:  true
             Layout.fillHeight: true
-            model:             serverLink.playerList
-            delegate:          Text { text: model.name }
+            color:             "transparent"
+            radius:            4
+            border.color:      "black"
+
+            ListView
+            {
+                anchors.fill:    parent
+                anchors.margins: 4
+                model:           serverLink.playerList
+                delegate:        PlayerRow {}
+            }
         }
 
         Text

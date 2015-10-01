@@ -9,5 +9,6 @@
         <file>ImportWorldPage.qml</file>
         <file>DifficultyCombo.qml</file>
         <file>GamemodeCombo.qml</file>
+        <file>PlayerRow.qml</file>
     </qresource>
 </RCC>

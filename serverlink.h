@@ -22,12 +22,14 @@ public:
     const QString& worldName() const { return worldName_; }
     void setWorldName(const QString& name);
 
-    bool running() const { return running_; }
-    PlayerList* playerList() { return &playerList_; }
+    bool               running() const         { return running_; }
+    PlayerList*        playerList()            { return &playerList_; }
+    McqlUtil::GameMode defaultGamemode() const { return defaultGamemode_; }
 
     McqlUtil::Difficulty difficulty() const { return difficulty_; }
     void setDifficulty(McqlUtil::Difficulty d);
 
+    Q_INVOKABLE void setPlayerMode(const QString& name, int mode);
     Q_INVOKABLE void sendInput(const QString& input);
     Q_INVOKABLE void stopServer();
 
@@ -53,6 +55,7 @@ protected:
     QProcess             serverProcess_;
     PlayerList           playerList_;
     McqlUtil::Difficulty difficulty_;
+    McqlUtil::GameMode   defaultGamemode_;
 };
 
 #endif // SERVERLINK_H

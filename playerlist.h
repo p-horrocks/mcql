@@ -15,7 +15,7 @@ public:
     virtual int rowCount(const QModelIndex&) const;
     virtual QVariant data(const QModelIndex& index, int role) const;
 
-    void addPlayer(const QString& name);
+    void addPlayer(const QString& name, ServerLink* server);
     void removePlayer(const QString& name);
 
 protected:

@@ -7,8 +7,9 @@
 
 ServerLink::ServerLink()
 {
-    running_    = false;
-    difficulty_ = McqlUtil::Normal;
+    running_         = false;
+    difficulty_      = McqlUtil::Normal;
+    defaultGamemode_ = McqlUtil::Survival;
 
     bool ok = connect(
                 &serverProcess_, &QProcess::readyReadStandardOutput,
@@ -41,6 +42,13 @@ void ServerLink::setDifficulty(McqlUtil::Difficulty d)
 
     // Wait for the server to respond to change our value.
     sendInput(QString("difficulty %1").arg(static_cast<int>(d)));
+}
+
+void ServerLink::setPlayerMode(const QString& name, int mode)
+{
+    // The QML engine doesn't like calling this with McqlUtil::GameMode as
+    // the parameter type.
+    sendInput(QString("gamemode %1 %2").arg(name).arg(mode));
 }
 
 void ServerLink::sendInput(const QString& input)
@@ -145,6 +153,13 @@ void ServerLink::readServerDefaults(const QString& dir)
         {
             _setDifficulty(static_cast<McqlUtil::Difficulty>(value.toInt()));
         }
+        else if(name == "gamemode")
+        {
+            defaultGamemode_ = static_cast<McqlUtil::GameMode>(value.toInt());
+        }
+        else
+        {
+        }
     }
 }
 
@@ -156,7 +171,7 @@ void ServerLink::readStdoutLine(const QString& line)
 
     if(newPlayerRE.exactMatch(line))
     {
-        playerList_.addPlayer(newPlayerRE.cap(1));
+        playerList_.addPlayer(newPlayerRE.cap(1), this);
     }
     else if(lostPlayerRE.exactMatch(line))
     {

@@ -3,7 +3,8 @@
 namespace
 {
 
-const int NAME_ROLE = Qt::UserRole;
+const int NAME_ROLE = Qt::UserRole + 1;
+const int MODE_ROLE = Qt::UserRole + 2;
 
 } // namespace
 
@@ -15,6 +16,7 @@ QHash<int, QByteArray> PlayerList::roleNames() const
 {
     auto retval = QHash<int, QByteArray>();
     retval[NAME_ROLE] = "name";
+    retval[MODE_ROLE] = "mode";
     return retval;
 }
 
@@ -37,14 +39,16 @@ QVariant PlayerList::data(const QModelIndex& index, int role) const
     {
     case NAME_ROLE:
         return player->name();
+    case MODE_ROLE:
+        return player->mode();
     }
     return QVariant();
 }
 
-void PlayerList::addPlayer(const QString& name)
+void PlayerList::addPlayer(const QString& name, ServerLink* server)
 {
     beginInsertRows(QModelIndex(), players_.size(), players_.size());
-    players_.push_back(QSharedPointer<Player>(new Player(name)));
+    players_.push_back(QSharedPointer<Player>(new Player(name, server)));
     endInsertRows();
 }
 
