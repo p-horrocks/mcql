@@ -85,6 +85,7 @@ FocusScope
         {
             id:               difficulty
             Layout.fillWidth: true
+            value:            McqlUtil.Normal
         }
 
         Text
