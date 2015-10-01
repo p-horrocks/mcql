@@ -69,11 +69,11 @@ FocusScope
             text: "Type"
         }
 
-        ComboBox
+        GamemodeCombo
         {
             id:               worldType
             Layout.fillWidth: true
-            model:            ["Survival", "Creative"]
+            value:            McqlUtil.Survival
         }
 
         Text

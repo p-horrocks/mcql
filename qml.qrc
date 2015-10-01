@@ -8,5 +8,6 @@
         <file>BigButton.qml</file>
         <file>ImportWorldPage.qml</file>
         <file>DifficultyCombo.qml</file>
+        <file>GamemodeCombo.qml</file>
     </qresource>
 </RCC>

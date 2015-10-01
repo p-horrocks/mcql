@@ -16,6 +16,9 @@ public:
     enum Difficulty { Peaceful, Easy, Normal, Hard };
     Q_ENUM(Difficulty)
 
+    enum GameMode { Survival, Creative };
+    Q_ENUM(GameMode)
+
     Q_INVOKABLE void        initialiseWorld(const QString& name, int type, Difficulty difficulty, int hurting);
     Q_INVOKABLE QStringList importableWorlds();
     Q_INVOKABLE void        importWorld(const QString& source, const QString& destination);
