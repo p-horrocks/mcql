@@ -10,6 +10,7 @@ FocusScope
 
     property alias running:    serverLink.running
     property bool closeOnStop: false
+    property bool uiUpdate:    false
 
     function stopServer()
     {
@@ -54,6 +55,31 @@ FocusScope
         {
             text:           "Settings"
             font.pointSize: 16
+        }
+
+        GridLayout
+        {
+            Layout.fillWidth: true
+            columns:          2
+
+            Text
+            {
+                text: "Difficulty"
+            }
+
+            DifficultyCombo
+            {
+                id:               difficultyCombo
+                Layout.fillWidth: true
+                value:            serverLink.difficulty
+
+                onValueChanged: {
+                    if(!uiUpdate)
+                    {
+                        serverLink.difficulty = value
+                    }
+                }
+            }
         }
 
         Text

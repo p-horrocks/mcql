@@ -3,6 +3,7 @@
 #include <cassert>
 #include <QDebug>
 #include <QDir>
+#include <QMetaEnum>
 
 ServerLink::ServerLink()
 {
@@ -33,6 +34,15 @@ void ServerLink::setWorldName(const QString& name)
     }
 }
 
+void ServerLink::setDifficulty(McqlUtil::Difficulty d)
+{
+    if(!running_ || (d == difficulty_))
+        return;
+
+    // Wait for the server to respond to change our value.
+    sendInput(QString("difficulty %1").arg(static_cast<int>(d)));
+}
+
 void ServerLink::sendInput(const QString& input)
 {
     auto data = input.toUtf8();
@@ -46,30 +56,21 @@ void ServerLink::stopServer()
     {
         // Return immediately, we'll catch the signal when the server actually
         // stops.
-        serverProcess_.write("stop\n");
+        sendInput("stop");
     }
 }
 
 void ServerLink::readProcessStdout()
 {
-    auto data = serverProcess_.readAllStandardOutput();
+    auto data = QString::fromUtf8(serverProcess_.readAllStandardOutput());
 
-    static const auto newPlayerRE  = QRegExp("\\[[^]]+\\]: ([^[]+)\\[[^]]+\\] logged in.*");
-    static const auto lostPlayerRE = QRegExp("\\[[^]]+\\]: ([^ ]+) left the game.*");
-
-    if(newPlayerRE.exactMatch(data))
+    auto lines = data.split('\n');
+    for(const auto& line : lines)
     {
-        playerList_.addPlayer(newPlayerRE.cap(1));
-    }
-    else if(lostPlayerRE.exactMatch(data))
-    {
-        playerList_.removePlayer(lostPlayerRE.cap(1));
-    }
-    else
-    {
+        readStdoutLine(line);
     }
 
-    emit output(QString::fromUtf8(data));
+    emit output(data);
 }
 
 void ServerLink::onStateChange(QProcess::ProcessState state)
@@ -82,10 +83,21 @@ void ServerLink::onStateChange(QProcess::ProcessState state)
     }
 }
 
+void ServerLink::_setDifficulty(McqlUtil::Difficulty d)
+{
+    if(d != difficulty_)
+    {
+        difficulty_ = d;
+        emit difficultyChanged();
+    }
+}
+
 void ServerLink::startServer()
 {
     auto worldPath  = QDir::home().absoluteFilePath(QString(".mcql/%1").arg(worldName_));
     auto spigotPath = QDir::home().absoluteFilePath(".mcql/spigot-1.8.8.jar");
+
+    readServerDefaults(worldPath);
 
     auto args = QStringList();
     args << "-Xms1024M"<< "-Xmx1024M" << "-XX:MaxPermSize=128M";
@@ -129,5 +141,38 @@ void ServerLink::readServerDefaults(const QString& dir)
         auto name  = line.left(pos);
         auto value = line.mid(pos + 1);
 
+        if(name == "difficulty")
+        {
+            _setDifficulty(static_cast<McqlUtil::Difficulty>(value.toInt()));
+        }
+    }
+}
+
+void ServerLink::readStdoutLine(const QString& line)
+{
+    static const auto newPlayerRE  = QRegExp("\\[[^]]+\\]: ([^[]+)\\[[^]]+\\] logged in.*");
+    static const auto lostPlayerRE = QRegExp("\\[[^]]+\\]: ([^ ]+) left the game.*");
+    static const auto difficultyRE = QRegExp("\\[[^]]+\\]: Set game difficulty to ([^ ]+).*");
+
+    if(newPlayerRE.exactMatch(line))
+    {
+        playerList_.addPlayer(newPlayerRE.cap(1));
+    }
+    else if(lostPlayerRE.exactMatch(line))
+    {
+        playerList_.removePlayer(lostPlayerRE.cap(1));
+    }
+    else if(difficultyRE.exactMatch(line))
+    {
+        auto str  = difficultyRE.cap(1);
+        auto type = QMetaEnum::fromType<McqlUtil::Difficulty>();
+        auto d    = type.keyToValue(str.toUtf8());
+        if(d >= 0)
+        {
+            _setDifficulty(static_cast<McqlUtil::Difficulty>(d));
+        }
+    }
+    else
+    {
     }
 }

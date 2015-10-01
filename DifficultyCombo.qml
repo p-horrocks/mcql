@@ -6,7 +6,20 @@ ComboBox
 {
     model: difficultyModel
 
-    property var value: difficultyModel.get(difficulty.currentIndex).value
+    property var value
+
+    onCurrentIndexChanged: value = difficultyModel.get(currentIndex).value
+
+    onValueChanged: {
+        for(var i = 0; i < difficultyModel.count; ++i)
+        {
+            if(difficultyModel.get(i).value === value)
+            {
+                currentIndex = i
+                break
+            }
+        }
+    }
 
     ListModel
     {
